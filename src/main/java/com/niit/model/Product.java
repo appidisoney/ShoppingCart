@@ -15,14 +15,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class Product {
 	
 		@Id
-       private String id;
+       private int id;
 	   private String name;
        private String description;
        private int price;
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -67,4 +67,5 @@ public class Product {
 	public void setImage(MultipartFile image) {
 		this.image = image;
 	}
+	
 }

@@ -34,13 +34,13 @@ public class ProductController {
 	private Path path;
 	
 	
-	@RequestMapping(value={"editproduct","addeditproduct/{id}/editproduct"})
-    public String addproduct(@ModelAttribute("product")Product product, HttpServletRequest request,Model m)
+	@RequestMapping(value="editproduct")
+    public String editproduct(@ModelAttribute("product")Product product, HttpServletRequest request,Model m)
     {
 		productDAO.saveOrUpdate(product);
 		MultipartFile file=product.getImage();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-		path = Paths.get(rootDirectory +"\\resources\\images\\"+product.getId()+".jpg");
+		path = Paths.get(rootDirectory +"\\resources\\images\\product\\"+product.getId()+".jpg");
 		if (file !=null && !file.isEmpty()) {
 			try{
 				System.out.println("image saving start");
@@ -48,19 +48,30 @@ public class ProductController {
 				System.out.println("image saved");
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("error");
+				System.out.println("Error");
 				throw new RuntimeException("item image saving failed",e);
 			}
 		}
     	return "redirect:/Product";
  }
 
+	@RequestMapping("view/{category}")
+	public String view(@PathVariable("category") int categoryid,RedirectAttributes attributes,Model mv)
+	{
+		mv.addAttribute("productList",productDAO.getcatitem(categoryid));
+		/*mv.addAttribute("ViewCategoryClicked", "true");
+		mv.addAttribute("HideOthers","true");*/
+		/*mv.addAttribute("productList",productDAO.getcatitem(categoryid));
+		mv.addAttribute("ViewCategoryClicked", "true");*/
+		return "Viewcategory";
+	}
+	
+	
  @RequestMapping(value="Product")
-public ModelAndView productpage(@ModelAttribute("product") Product product,BindingResult result,
-		@ModelAttribute("product1") Product product1,BindingResult result1)
+public ModelAndView productpage(@ModelAttribute("product") Product product,BindingResult result)
 {
  	
-	 ModelAndView mv= new ModelAndView("/Home");
+	 ModelAndView mv= new ModelAndView("/Admin");
 	//mv.addObject("product", new Product());
 	mv.addObject("productList",productDAO.list());
 	mv.addObject("categoryList",categoryDAO.list());
@@ -69,12 +80,12 @@ public ModelAndView productpage(@ModelAttribute("product") Product product,Bindi
 	return mv;
 }
  @RequestMapping(value={"addeditproduct/{id}"})
- public String Productpagedelete(@PathVariable("id") String id,RedirectAttributes attributes){
-	 attributes.addFlashAttribute("product1",this.productDAO.get(id));
+ public String Productpageedit(@PathVariable("id") int id,RedirectAttributes attributes){
+	 attributes.addFlashAttribute("product",this.productDAO.get(id));
 	 return "redirect:/Product";
  }
  @RequestMapping(value={"adddeleteproduct/{id}"})
- public String Productpageedit(@ModelAttribute("product") Product product,Model m){
+ public String Productpagedelete(@ModelAttribute("product") Product product,Model m){
  	productDAO.delete(product);
 	 return "redirect:/Product";
  }

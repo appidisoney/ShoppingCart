@@ -19,8 +19,6 @@ public class CategoryController {
 	
 	@Autowired
 	CategoryDAO categoryDAO;
-	/*@Autowired
-	Category category;*/
 	
 	@RequestMapping(value={"editcategory","addeditcategory/{id}/editcategory"})
     public String addcategory(@ModelAttribute("category")Category category, Model m)
@@ -28,22 +26,13 @@ public class CategoryController {
 		categoryDAO.saveOrUpdate(category);
     	return "redirect:/Category";
     }
-	
-	 /*@RequestMapping(value="delcategory")
-	   public String deletecategory(@ModelAttribute("category")Category category, Model m)
-	   {
-	    	categoryDAO.delete(category);
-	    m.addAttribute("del","category deleted successfully");
-	    return "Home";
-	   }*/
 
     @RequestMapping(value="Category")
    public ModelAndView categorypage(@ModelAttribute("category") Category category,BindingResult result,
    		@ModelAttribute("category1") Category category1,BindingResult result1)
    {
     	
-   	 ModelAndView mv= new ModelAndView("/Home");
-   	//mv.addObject("category", new Category());
+   	 ModelAndView mv= new ModelAndView("/Admin");
    	mv.addObject("categoryList",categoryDAO.list());
    	mv.addObject("UserClickedcategory", "true");
    	return mv;
@@ -58,8 +47,6 @@ public class CategoryController {
     public String Categorypageedit(@ModelAttribute("category") Category category,Model m){
     	categoryDAO.delete(category);
    	 return "redirect:/Category";
-    }
-	
-		
+    }		
 }
 

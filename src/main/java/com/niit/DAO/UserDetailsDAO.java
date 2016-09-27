@@ -15,9 +15,9 @@ public interface UserDetailsDAO {
 	
 	public  UserDetails get(int id);
 	
-	public  UserDetails get(String password);
+	public  UserDetails get(String username);
 	
 	public List<UserDetails> list();
 	
-	public UserDetails isValidUser(String id, String password);
+	public UserDetails isValidUser(int id, String password);
 }

@@ -1,4 +1,4 @@
-package com.niit.controllers;
+/*package com.niit.controllers;
 
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,11 +82,12 @@ public ModelAndView logout(@RequestParam(value="id") String id,
 
 
 
-/*public ModelAndView logout(HttpServletRequest request,HttpSession session) {
+public ModelAndView logout(HttpServletRequest request,HttpSession session) {
 	ModelAndView mv = new ModelAndView("home"); 
 	
-}*/
+}
 //logout also
 
 
 
+*/

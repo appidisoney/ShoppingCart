@@ -13,46 +13,108 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.niit.model.Cart;
 
-
 @SuppressWarnings("deprecation")
-@Repository("cartDAO")
-public class CartDAOImpl implements CartDAO {
-	
+@Repository(value="cartDAO")
+public class CartDAOImpl implements CartDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
-	public CartDAOImpl(SessionFactory sessionFactory) 
-	{
-		this.sessionFactory = sessionFactory;
+	public CartDAOImpl(SessionFactory sessionFactory) {
+		this.sessionFactory=sessionFactory;
 	}
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<Cart> list() {
-	List<Cart> listCategory = (List<Cart>)sessionFactory.getCurrentSession()
-					.createCriteria(Cart.class)
-					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 
-			return listCategory;
+	@Transactional
+	public boolean save(Cart cart) {
+		try {
+			sessionFactory.getCurrentSession().saveOrUpdate(cart);
+			return true;
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			return false;
 		}
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<Cart> get(int userId) {
-		String hql = "from"+" Cart"+" where userId="+userId+"and status='C'";
-		@SuppressWarnings("rawtypes")
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		List<Cart> list = (List<Cart>)query.list();
-		return list;
-	}
-	@Transactional
-	public void saveOrUpdate(Cart cart) {
-		sessionFactory.getCurrentSession().saveOrUpdate(cart);
 		
 	}
+	
 	@Transactional
-	public void delete(int cartid) {
-		Cart cart = new Cart();
-		cart.setId(cartid);
-		sessionFactory.getCurrentSession().delete(cart);
+	public boolean update(Cart cart) {
+		try {
+			sessionFactory.getCurrentSession().update(cart);
+			return true;
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			return false;
+		}
+
 	}
+
+
+	@Transactional
+	public boolean delete(Cart cart) {
+		try {
+			sessionFactory.getCurrentSession().delete(cart);
+			return true;
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Transactional
+	public List<Cart> list() {
+		String hql ="from Cart";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		return query.list();
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Transactional
+	public Cart get(int id) {
+		String hql = "from Cart where id= "+ "'"+ id+"'" ;
+		Query query=sessionFactory.getCurrentSession().createQuery(hql);
+		List<Cart>list= query.list();
+		
+		if(list==null)
+		{
+			
+			return null;
+		}
+		else
+		{
+			return list.get(0);
+		}
+	}
+	@Transactional
+	@SuppressWarnings("unchecked")
+	public Cart getproduct(int productid) {
+		String hql="from Cart where productid= "+productid;
+		@SuppressWarnings("rawtypes")
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		List<Cart>listproduct=query.list();
+
+		if(listproduct.isEmpty())
+		{
+			
+			return null;
+		}
+		else
+		{
+			System.out.println("product");
+			return listproduct.get(0);
+		}
+	}
+
+	@Transactional
+	public void pay(int userId) {
+		String hql="update Cart set status='P' where userId="+userId;	
+		@SuppressWarnings("rawtypes")
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.executeUpdate();
+	}
+
 	@Transactional
 	public long CartPrice(int userId) {
 		Criteria c=sessionFactory.getCurrentSession().createCriteria(Cart.class);
@@ -62,48 +124,12 @@ public class CartDAOImpl implements CartDAO {
 		Long l= (Long) c.uniqueResult();
 		return l;
 	}
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public Cart getitem(int cartId) {
-		String hql = "from"+" Cart"+" where id="+cartId;
-		@SuppressWarnings("rawtypes")
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		List<Cart> list = (List<Cart>) query.list();
-		if (list!= null && !list.isEmpty()) {
-			return list.get(0);
-		}
-		return null;
-	}
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public Cart getitem(String prodId, int userId) {
-		String hql = "from"+" Cart"+" where Status='C'and userid="+userId+" and productid="+"'"+prodId+"'";
-		@SuppressWarnings("rawtypes")
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		List<Cart> list = (List<Cart>) query.list();
-		if (list!= null && !list.isEmpty()) {
-			return list.get(0);
-		}
-		return null;
-	}
-	/*@Transactional
-	public long cartsize(int userId) {
-		Criteria c=sessionFactory.getCurrentSession().createCriteria(Cart.class);
-		c.add(Restrictions.eq("userid", userId));
-		c.add(Restrictions.eq("status","C"));
-		c.setProjection(Projections.count("userid"));
-		long count=(long) c.uniqueResult();
-	return count;
-}
-*/	@Transactional
-	public void pay(int userId) {
-		String hql="update Cart set status='P' where userid="+userId;	
-		@SuppressWarnings("rawtypes")
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		query.executeUpdate();
-	}
+
 	public long cartsize(int userId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-}
+
+	
+	}
+

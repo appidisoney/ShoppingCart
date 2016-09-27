@@ -27,11 +27,10 @@ public class SupplierController {
     }
     
      @RequestMapping(value="Supplier")
-    public ModelAndView supplier(@ModelAttribute("supplier") Supplier supplier,BindingResult result,
+    public ModelAndView supplierpage(@ModelAttribute("supplier") Supplier supplier,BindingResult result,
     		@ModelAttribute("supplier1") Supplier supplier1,BindingResult result1)
     {
-    	 ModelAndView mv= new ModelAndView("/Home");
-    	//mv.addObject("supplier", new Supplier());
+    	 ModelAndView mv= new ModelAndView("/Admin");
     	mv.addObject("supplierList",supplierDAO.list());
     	mv.addObject("UserClickedsupplier", "true");
     	return mv;

@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.niit.model.Product;
 
 @Repository(value="productDAO")
@@ -43,7 +42,7 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 	@Transactional
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public  Product get(String id){
+	public  Product get(int id){
 		
 		String hql = "from Product where id= "+ "'"+ id+"'" ;
 		Query query=sessionFactory.getCurrentSession().createQuery(hql);
@@ -66,7 +65,26 @@ public class ProductDAOImpl implements ProductDAO {
 	Query query = sessionFactory.getCurrentSession().createQuery(hql);
 	return query.list();
 	}
+	public Object getproduct(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		
+		@Transactional
+		public List<Product> getcatitem(int id) {
+			String hql = "from"+" Product"+" where categoryid=" +id;
+			@SuppressWarnings("rawtypes")
+			Query query = sessionFactory.getCurrentSession().createQuery(hql);
+			
+			@SuppressWarnings("unchecked")
+			List<Product> listProduct = (List<Product>) query.list();
+			if (listProduct != null && !listProduct.isEmpty()) {
+				return listProduct;
+			}
+			return listProduct;
+		}
 	
-}
+	}
+
+	
+

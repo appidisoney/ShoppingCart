@@ -1,7 +1,6 @@
 package com.niit.controllers;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -23,7 +22,7 @@ public class MultipartController {
 			{
 				try
 				{
-					inputStream=file.getInputStream();
+					/*inputStream=file.getInputStream();
 					outputStream=new FileOutputStream(path+filename);
 					int readBytes=0;
 					byte[] buffer= new byte[1024];
@@ -32,7 +31,7 @@ public class MultipartController {
 						outputStream.write(buffer, 0, readBytes);
 					}
 					System.out.println("File Uploaded");
-					System.out.println(path+filename);
+					System.out.println(path+filename);*/
 					file.transferTo(new File(path));
 				}
 				catch (Exception e)

@@ -2,10 +2,11 @@ package com.niit.DAO;
 
 import java.util.List;
 
-
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ public class UserDetailsDAOImpl implements UserDetailsDAO {
 	@Transactional
 	public boolean saveOrUpdate(UserDetails userDetails){
 		try {
-			sessionFactory.getCurrentSession().save(userDetails);
+			sessionFactory.getCurrentSession().saveOrUpdate(userDetails);
 			return true;
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -44,7 +45,7 @@ public class UserDetailsDAOImpl implements UserDetailsDAO {
 	}
 	@Transactional
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public  UserDetails get(String id){
+	public  UserDetails get1(int id){
 		
 		String hql = "from UserDetails where id= "+ "'"+ id+"'" ;
 		Query query=sessionFactory.getCurrentSession().createQuery(hql);
@@ -60,7 +61,7 @@ public class UserDetailsDAOImpl implements UserDetailsDAO {
 		}
 	}
 	@Transactional
-	public UserDetails isValidUser(String id, String password)
+	public UserDetails isValidUser(int id, String password)
 	{
 		//select *from UserDetails where id='101' and password 'niit'
 	String hql = "from UserDetails where id = '"+id+"' and password= '" +password +"'";
@@ -88,7 +89,7 @@ public class UserDetailsDAOImpl implements UserDetailsDAO {
 	Query query = sessionFactory.getCurrentSession().createQuery(hql);
 	return query.list();
 	}
-	public UserDetails isVaidUser(String id, String password) {
+	public UserDetails isVaidUser(int id, String password) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -96,7 +97,21 @@ public class UserDetailsDAOImpl implements UserDetailsDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Transactional
+	@SuppressWarnings("unchecked")
+	public UserDetails get(String username) {
+		Criteria c= sessionFactory.getCurrentSession().createCriteria(UserDetails.class);
+		c.add(Restrictions.eq("username",username));
+		List<UserDetails> listuser = c.list();
+		if(listuser!=null&&!listuser.isEmpty()){
+			return listuser.get(0);
+		}else{
+			return null;
+		}
+		
+		
+	}
+	
 		
 	
 }

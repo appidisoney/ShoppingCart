@@ -17,6 +17,8 @@ import com.niit.DAO.CartDAO;
 import com.niit.DAO.CartDAOImpl;
 import com.niit.DAO.CategoryDAO;
 import com.niit.DAO.CategoryDAOImpl;
+import com.niit.DAO.ProductDAO;
+import com.niit.DAO.ProductDAOImpl;
 import com.niit.DAO.SupplierDAO;
 import com.niit.DAO.SupplierDAOImpl;
 import com.niit.model.Cart;
@@ -83,6 +85,12 @@ public CategoryDAO getCategoryDAO(SessionFactory sessionFactory) {
 @Bean(name="supplierDAO")
 public SupplierDAO getSupplierDAO(SessionFactory sessionFactory) {
 	return new SupplierDAOImpl(sessionFactory);
+}
+
+@Autowired
+@Bean(name="productAO")
+public ProductDAO getProductDAO(SessionFactory sessionFactory){
+	return new ProductDAOImpl(sessionFactory);
 }
 
 @Autowired

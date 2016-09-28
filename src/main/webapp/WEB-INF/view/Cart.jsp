@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 <style type="text/css">
 <body> {
-    background-image: url("http://static.tumblr.com/f342e413a75df4ba43d3457bc87416b5/ahbiavk/jQtn9p5dv/tumblr_static_41tmawoyjmioogos4gg0kwko.gif");
+    background-image: url("http://www.solanoaidscoalition.org/blog/wp-content/uploads/2014/11/Paper-Grunge-Background-11.jpg");
 }
 table {
     border-collapse: collapse;

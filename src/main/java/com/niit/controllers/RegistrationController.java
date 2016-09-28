@@ -37,6 +37,9 @@ import com.niit.model.UserDetails;
 		public String DisplayLogin(Model mv) {
 			mv.addAttribute("userDetails", new UserDetails());
 			mv.addAttribute("UserClickeduser", "true");
+			mv.addAttribute("HideOthers","true");
+
+			
 			return "Home";
 		}
 	

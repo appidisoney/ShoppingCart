@@ -21,7 +21,7 @@ public class HomeController {
 	CategoryDAO categoryDAO;
 	
 	
-	@RequestMapping( value="/")
+	@RequestMapping( value={"/","Home"})
 	public String homepage (Model mv){             // navigate without carrying data
 		
 		mv.addAttribute("CategoryList", categoryDAO.list());

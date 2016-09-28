@@ -25,7 +25,7 @@ public class CartDAOImpl implements CartDAO{
 	@Transactional
 	public boolean save(Cart cart) {
 		try {
-			sessionFactory.getCurrentSession().saveOrUpdate(cart);
+			sessionFactory.getCurrentSession().save(cart);
 			return true;
 		} catch (Exception e) {
 			

@@ -21,15 +21,14 @@ h1 {text-align:center;
 font-style:italic;
 font-size:50px;
 text-decoration:underline;
-color:white;}
-
+color:black;}
 p{
 text-align:right;
 }
 </style>
 </head>
 
-<body background="https://awesomewallpapers.files.wordpress.com/2016/01/purple-blur.jpg">
+<body background="http://www.solanoaidscoalition.org/blog/wp-content/uploads/2014/11/Paper-Grunge-Background-11.jpg">
 	<h1><b>SHOPPERS STOP<img alt="logo" src="http://cartype.com/pics/65/small/ss_impala_rear_panel_63emblem.jpg" width="55" height="55"></b></h1>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
@@ -37,12 +36,13 @@ text-align:right;
       <a class="navbar-brand" href="#"></a>
     </div>
     <ul class="nav navbar-nav">
-    <li class="active"><a href="Home"><p>Home<span class="glyphicon glyphicon-home"></span></p></a></li>
+    <li class=""><a href="Home"><p>Home<span class="glyphicon glyphicon-home"></span></p></a></li>
     <!-- -<li> <a href="Admin"><p>Admin<span class="glyphicon glyphicon-user"></span></p></a></li> -->
-     <li> <a href="Cart"><p>Cart<span class="glyphicon glyphicon-shopping-cart"></span></p></a></li>
-  
+     
 <sec:authorize access="isAuthenticated()">
     <li> <a href="<c:url value="/perform_logout" />">Logout</a></li>
+    <li> <a href="Cart"><p>Cart<span class="glyphicon glyphicon-shopping-cart"></span></p></a></li>
+  
 	<li><a>Welcome<sec:authentication property="principal.username"/></a></li>
 </sec:authorize>
     <sec:authorize access="!isAuthenticated()">
@@ -64,15 +64,44 @@ text-align:right;
 </div>
 </div></div>
 			 -->
-				<ul > 					
+				</li> 
+    </div></a></li></ul>
+  </div>
+</nav>
+<ul > 					
 					<li><c:forEach items="${CategoryList}" var="category">
 							<a href="view/${category.id }"><c:out value="${category.name}" />
 							<span class="glyphicon glyphicon-menu-right"></span></a>
 						</c:forEach></li>
-				</ul></li> 
-    </div></a></li></ul>
-  </div>
-</nav>
+				</ul>
+
+
+
+<%-- <c:when test="${Administrator}">
+					<ul
+						class="w3-navbar w3-light-grey w3-round w3-small menu w3-card-4 "
+						Style="width: 70%; margin-left: 15%; margin-top: -2px;">
+						<!-- 		<li><a href="Report" class="w3-hover-none"><i
+								class="fa fa-cog fa-spin  fa-fw"></i> <span class="sr-only">Loading...</span>
+								Recent Order</a></li> -->
+						<li><a href="product" class="w3-hover-none"><i
+								class="fa fa-refresh fa-spin  fa-fw"></i> <span class="sr-only">Loading...</span>
+								Products</a></li>
+						<li><a href="category" class="w3-hover-none"><i
+								class="fa fa-refresh fa-spin  fa-fw"></i> <span class="sr-only">Loading...</span>
+								Category</a></li>
+						<li><a href="supplier" class="w3-hover-none"><i
+								class="fa fa-refresh fa-spin  fa-fw"></i> <span class="sr-only">Loading...</span>
+								Supplier</a></li>
+					</ul>
+				</c:when> --%>
+
+
+
+
+
+
+
 ${registered}
 <div ng-view></div>
 
@@ -130,6 +159,11 @@ ${registered}
 	</c:choose>
 </body>
 
+<c:choose>
+		<c:when test="${!Administrator}">
+			<c:if test="${empty HideOthers}">
+				<div>
+
 	<div class="container">
 		<br>
 		<div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -184,8 +218,13 @@ ${registered}
 			</a>
 		</div>
 
-</div>
+</div></div></c:if></c:when></c:choose>
 
+
+<c:if test="${empty Others}">
+
+		<c:choose>
+			<c:when test="${!Administrator}">
 <c:forEach items="${productList}" var="product"><tr>
 <div class="responsive">
 	 <div class="img">
@@ -195,19 +234,44 @@ ${registered}
      					<img height="150px" width="150px" alt="${product.id }"
      					src="<c:url value="/resources/images/product/${product.id }.jpg"></c:url>"></a>
      					<div class="desc">
-     					<c:url var="action" value="addtocart/${product.id}"></c:url>
-			<form:form action="${action}" modelAttribute="cart">
-			<td id="td1"><c:out value="${product.name}" />
+     					<td id="td1"><c:out value="${product.name}" />
 			<td id="td1"><c:out value="${product.price}" />
-			<!-- <input type="submit" class="btn btn-primary" value="Add To Cart" /> -->
+     					<p>
+     					
+     					
+								<%-- <${product.name}<br> <i class="fa fa-inr"
+													aria-hidden="true"></i> ${product.price}  --%>
+												 <c:choose>
+													<c:when test="${LoggedIn}">
+													<form:form action="${action}" modelAttribute="cart">
+			<%-- <td id="td1"><c:out value="${product.name}" />
+			<td id="td1"><c:out value="${product.price}" /> --%>
+ <!-- <input type="submit" class="btn btn-primary" value="Add To Cart" />  -->
 			</form:form>
+														<form action="addtoCart/${product.id}">
+														<input type="number" value="1" name="quantity"
+																class="btn btn-xs btn-primary   col-xs-2 ">
+																 <input
+																type="submit" value="Add"
+																class="btn btn-xs col-xs-3 btn-primary">
+														</form>
+													</c:when>
+												</c:choose> 
+											</p>
+     					
+     					
+     					
+     					
+     					
+     					<%--  <c:url var="action" value="addtocart/${product.id}"></c:url> --%>
+			
 			</td>
 		</div>
 		</div>
 		</div>
 		</div>			
 </tr>
-</c:forEach>
+</c:forEach></c:when></c:choose></c:if>
 
 <div ng-view></div>
 
@@ -220,15 +284,6 @@ ${registered}
 			});
 		});
 	</script>
+	
+	
 </html>
-
-
-
-
-
-
-
-
-
-
-

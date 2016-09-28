@@ -18,7 +18,7 @@ ul {
     margin: 10;
     padding: 0;
     overflow: hidden;
-    background-color: #06DEEC;
+    background-color: /* #06DEEC */;
 }
 
 li {
@@ -27,26 +27,48 @@ li {
 
 li a {
     display: inline-block;
-    color: red;
+    color:;
     text-align: center;
     padding: 4px 16px;
     text-decoration: none;
 }
 
 li a:hover {
-    background-color: black;
+    background-color: white;
 }
 
-</style>
+</style> 
 </head>
 <body>
 
-<body background="C:\Users\APPIDI\Desktop\images\Background.jpg">
+<center><body background="http://www.solanoaidscoalition.org/blog/wp-content/uploads/2014/11/Paper-Grunge-Background-11.jpg">
+   <h1><b>SHOPPERS STOP<img alt="logo" src="http://cartype.com/pics/65/small/ss_impala_rear_panel_63emblem.jpg" width="55" height="55"></b></h1>
+ <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"></a>
+    
+    <ul class="nav navbar-nav">
+    <li class=""><a href="Home"><p>Home<span class="glyphicon glyphicon-home"></span></p></a></li> 
+ <!--    <sec:authorize access="!isAuthenticated()"> -->
+    <li> <a href="Registration"><p>Register<span class="glyphicon glyphicon-user"></span></p></a></li>
+    <li> <a href="Login"><p>Login<span class="glyphicon glyphicon-user"></span></p></a></li>
+   <!--  </sec:authorize> -->
+    
+</nav>
 
-<center><h2> Welcome to Shopping cart</h2></center>
+    <ul > 			
+					<li><c:forEach items="${CategoryList}" var="category">
+							<a href="view/${category.id }"><c:out value="${category.name}" />
+							<span class="glyphicon glyphicon-menu-right"></span></a>
+						</c:forEach></li>
+				</ul>
+      
+    
+ <center><h2> Welcome to Shopping cart</h2></center> 
 ${message}<br>
 
-<hr color="blue">
+<hr color="">
 
  <div >
     <ul>

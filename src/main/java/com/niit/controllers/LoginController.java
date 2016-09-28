@@ -31,6 +31,8 @@ UserDetailsDAO userDetailsDAO;
 public String DisplayLogin(Model mv) {
 	mv.addAttribute("userDetails", new UserDetails());
 	mv.addAttribute("UserClickedlogin", "true");
+	mv.addAttribute("HideOthers","true");
+
 	return "Home";
 }
 
